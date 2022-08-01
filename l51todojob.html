@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		*{
+			box-sizing:border-box;
+			
+		}
+		body{
+			height:100vh;
+
+			display:flex;
+			justify-content:center;
+			align-items:center;
+		}
+
+		
+		.container{
+			padding:30px 80px 50px;
+			background:#f4abc4;
+			border-radius:20px;
+
+			box-shadow:2px 2px 10px #000c24;
+		}
+
+		h2{
+			/*color:#333456;*/
+			color:#fff;
+			text-align:center;
+			text-transform:uppercase;
+			font-weight:bold;
+			letter-spacing:0.2em;
+			text-shadow:3px -3px 2px #000c24;
+		}
+		.form-group{
+			font-size:20px;
+			width:400px;
+			margin-bottom:10px;
+		}
+		.form-group label{
+			display:block;
+			color:#333456;
+		}
+
+		.form-control{
+			font-size:14px;
+			width:100%;
+			height:35px;
+			color:#060930;
+			border: none;
+			border-radius:5px;
+
+			
+		}
+
+		select{
+			height:35px;
+		}
+		
+
+		/*.form-control:focus{
+			outline:none;
+			outline-color:#595b83;
+		}*/
+
+
+		button{
+			border:none;
+			border-radius:2px;
+			padding:5px 10px;
+		}
+		.addbtn{
+			background:#595b83;
+			color:#fff;
+		}
+
+		button:hover{
+			cursor: pointer;
+		}
+		/*.addbtn:hover{
+			background:#333456;
+		}*/
+
+	</style>
+</head>
+<body>
+
+
+	<div class="container">
+		<h2>To Do Job</h2>
+
+		<form action="" method="">
+			
+			<div class="form-group">
+				<label for="addjob">New Job:</label>
+				<input type="text" name="addjob" id="addjob" class="form-control" placeholder="Write new Job...">
+			</div>
+
+			<div class="form-group">
+				<label for="joblist">Job List:</label>
+				<select id="joblist" class="form-control">
+					<option selected>Choose a job</option>
+				</select>
+			</div>
+
+			<button type="submit" class="addbtn btn" disabled>Add new job</button>
+			<button type="button" class="cancel btn">Cancel</button>
+
+		</form>
+	</div>
+
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// console.log('hi');
+
+		 	function disablebtn(){
+		 		$('.addbtn').css({
+					background:'#595b83',
+					opacity:'0.6'
+				});
+		 	}
+
+		 	function activebtn(){
+		 		$('.addbtn').css({
+					background:'#333456',
+					opacity:'1'
+				});
+		 	}
+
+		 	
+
+
+			$('#addjob').focusout(function(){
+				// console.log('hey! I am leaving');
+				
+
+				if($.trim($('#addjob').val() ) === ""){
+					// window.alert('Enter New Job Name');
+					$('.addbtn').attr('disabled',true);
+					disablebtn();
+				}else{
+					// console.log('add job')
+					// console.log($('#addjob').val());
+					$('.addbtn').removeAttr('disabled');
+					activebtn();	
+				}
+
+			});
+
+
+
+
+
+			// click add job btn
+			let joblist = [];
+			let i=0;
+
+			$('form').submit(function(e){
+				// console.log('hi');
+
+				//add new job to job lists
+				let joblistlen = $(joblist).length;
+				// console.log(joblistlen);
+
+				if(joblistlen > 0){
+
+
+					for(let j=0;j< joblistlen;j++){
+
+						if($('#addjob').val().toLowerCase() == joblist[j]){
+							// console.log('job already exists');
+							window.alert('Job already exists');
+							break;
+
+						}else{
+
+							if(joblistlen > j+1 || $('#addjob').val().toLowerCase() == joblist[j] ){
+								// console.log('htet sis ml');
+								continue;
+							}else if($('#addjob').val().toLowerCase() != joblist[j]){
+								// console.log('ma shi buu');
+							 	$('select').append(`<option>${$('#addjob').val()}</option>`);
+								joblist[i] = $('#addjob').val().toLowerCase();
+								window.alert('New job  added');
+								break;
+							}
+	
+							// // console.log('added job');
+						}
+					}
+
+
+					joblistlen+=1;
+
+
+				}else{
+					$('select').append(`<option>${$('#addjob').val()}</option>`);
+					joblist[0] = $('#addjob').val().toLowerCase();
+					// console.log(joblist[0]);
+					window.alert('New job  added');
+
+					joblistlen+=1;
+				}
+				// console.log(joblistlen);
+
+				i++;
+
+
+	
+
+
+				// clear add new job val
+				$('#addjob').val('');
+				
+				//disable add btn again
+				$('.addbtn').attr('disabled',true);
+				disablebtn();
+
+				// console.log($('#addjob').val());
+				
+				e.preventDefault();
+			});
+
+
+			//add btn
+			if($('.addbtn:has(disabled)')){
+				// console.log('disabled button');
+				disablebtn();
+
+			}
+
+
+			//  cancel btn 
+			$('.cancel').click(function(){
+
+				$('#addjob').val('');
+				$('.addbtn').attr('disabled',true);
+				disablebtn();
+
+			});
+
+
+
+			$('.form-control').click(function(){
+				// console.log('hi');
+				$('.form-control').css({
+					outlineColor:'#595b83'
+				})
+			})
+
+
+
+
+
+		})
+	</script>
+
+</body>
+</html>
+
+<!-- .val('') 
+=>clear value -->
